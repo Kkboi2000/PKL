@@ -32,12 +32,9 @@
     -webkit-font-smoothing: antialiased;
   }
   body.lang-ja { --th-font: 'Noto Sans JP', sans-serif; }
-
   @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
-
   #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
   #shell { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 1; }
-
   #viewport {
     position: relative; overflow: hidden; border-radius: 4px;
     box-shadow: 0 0 80px rgba(245,166,35,0.15), 0 0 200px rgba(245,166,35,0.05);
@@ -49,7 +46,6 @@
   @media (max-width: 767px), (orientation: portrait) {
     #viewport { width: 100vw; height: calc(var(--app-vh) * 100); border-radius: 0; box-shadow: none; }
   }
-
   #sky { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 110%, #2a1a5e 0%, #160d38 35%, #0c0b22 65%, #080814 100%); z-index: 0; }
   #sky::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 18%;
@@ -62,7 +58,6 @@
     background: radial-gradient(circle at 40% 40%, #fffae8, #fde68a 60%, #f5c842 100%);
     box-shadow: 0 0 30px 10px rgba(253,230,138,0.3), 0 0 80px 30px rgba(253,230,138,0.1); z-index: 1;
   }
-
   .lantern {
     position: absolute; bottom: -8%; transform: translateX(-50%);
     display: flex; flex-direction: column; align-items: center;
@@ -74,31 +69,28 @@
   @keyframes floatSwayA {
     0%{transform:translateX(-50%) translateY(0) rotate(0);opacity:0}
     4%{opacity:1}
-    25%{transform:translateX(calc(-50% + 10px)) translateY(-34vh) rotate(2.5deg)}
-    60%{transform:translateX(calc(-50% - 10px)) translateY(-81vh) rotate(-2.5deg)}
+    25%{transform:translateX(calc(-50% + 5px)) translateY(-34vh) rotate(1.4deg)}
+    60%{transform:translateX(calc(-50% - 5px)) translateY(-81vh) rotate(-1.4deg)}
     94%{opacity:1}
     100%{transform:translateX(-50%) translateY(-135vh) rotate(0);opacity:0}
   }
   @keyframes floatSwayB {
     0%{transform:translateX(-50%) translateY(0) rotate(0);opacity:0}
     4%{opacity:1}
-    25%{transform:translateX(calc(-50% - 10px)) translateY(-34vh) rotate(-2.5deg)}
-    60%{transform:translateX(calc(-50% + 10px)) translateY(-81vh) rotate(2.5deg)}
+    25%{transform:translateX(calc(-50% - 5px)) translateY(-34vh) rotate(-1.4deg)}
+    60%{transform:translateX(calc(-50% + 5px)) translateY(-81vh) rotate(1.4deg)}
     94%{opacity:1}
     100%{transform:translateX(-50%) translateY(-135vh) rotate(0);opacity:0}
   }
   .lantern.float-a, .lantern.float-b { opacity: 0; }
-
   .lantern.escaping { animation: escapeDrift 2.4s cubic-bezier(0.25,0.6,0.3,1) forwards !important; }
   @keyframes escapeDrift {
     0%{transform:translateX(-50%) translateY(var(--escape-y,-40vh)) rotate(0);opacity:1}
     30%{transform:translateX(calc(-50% + 6px)) translateY(calc(var(--escape-y,-40vh) - 4vh)) rotate(15deg);opacity:.9}
     100%{transform:translateX(calc(-50% + 14px)) translateY(calc(var(--escape-y,-40vh) - 16vh)) rotate(15deg);opacity:0}
   }
-
   .lantern-svg { width: calc(clamp(58px, 10.5vmin, 78px) * var(--lantern-scale)); height: auto; transition: transform .1s; }
   .lantern.partial .lantern-svg { transform: scale(1.06); }
-
   .word-bubble {
     background: rgba(10,8,25,0.82); border: 1px solid rgba(245,166,35,0.4);
     border-radius: 20px; padding: 6px 14px;
@@ -115,7 +107,6 @@
   .word-bubble .check { display: none; margin-left: 6px; color: var(--accent-teal); font-weight: 700; }
   .word-bubble.cleared.check-mode .check { display: inline; }
   .lantern.partial .word-bubble { border-color: rgba(255,209,102,0.8); }
-
   #hud {
     position: absolute; top: 0; left: 0; right: 0; z-index: 20;
     display: flex; justify-content: space-between; align-items: flex-start;
@@ -130,11 +121,9 @@
   #combo-display { text-align: center; }
   #combo-value { font-size: clamp(18px,3.8vmin,22px); color: var(--accent-rose); text-shadow: 0 0 20px rgba(232,67,122,0.6); transition: transform .1s; }
   #combo-value.pop { transform: scale(1.3); }
-
   #timer-bar { position: absolute; bottom: 72px; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.05); z-index: 15; }
   #timer-bar.hidden { display: none; }
   #timer-fill { height: 100%; background: linear-gradient(90deg, var(--accent-teal), var(--lantern-gold)); transition: width 1s linear; box-shadow: 0 0 8px rgba(62,207,207,0.5); }
-
   #input-area {
     position: absolute; bottom: 0; left: 0; right: 0; z-index: 20;
     display: flex; align-items: center; justify-content: center;
@@ -151,7 +140,6 @@
   }
   #type-input:focus { border-color: rgba(245,166,35,0.75); box-shadow: 0 0 20px rgba(245,166,35,0.2); }
   #type-input.correct-flash { border-color: var(--accent-teal); box-shadow: 0 0 24px rgba(62,207,207,0.35); }
-
   .page {
     position: absolute; inset: 0; z-index: 40;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -160,12 +148,10 @@
   .page.hidden { display: none; }
   #page-title { background: rgba(5,3,18,0.5); backdrop-filter: blur(1px); }
   #page-setup, #page-score { background: rgba(5,3,18,0.88); backdrop-filter: blur(12px); }
-
   .kicker { font-family: var(--ui-font); font-size: clamp(11px,2.4vmin,12px); letter-spacing: .2em; color: var(--text-dim); text-transform: uppercase; }
   .title-main { font-family: var(--th-font); font-size: clamp(40px,11vw,72px); font-weight: 700; color: var(--lantern-glow); text-shadow: 0 0 50px rgba(245,166,35,0.55); line-height: 1.05; letter-spacing: .02em; }
   .title-roman { font-family: var(--ui-font); font-size: clamp(13px,3vmin,16px); letter-spacing: .35em; color: var(--lantern-gold); text-transform: uppercase; }
   .blurb { font-size: clamp(13px,3vmin,15px); color: var(--text-dim); max-width: 300px; line-height: 1.7; }
-
   .btn {
     font-family: var(--ui-font); font-size: clamp(12px,2.6vmin,13px); letter-spacing: .15em;
     text-transform: uppercase; padding: 13px 34px; border-radius: 40px;
@@ -178,8 +164,8 @@
   .btn-ghost { border-color: rgba(255,255,255,0.3); color: var(--text-bright); }
   .btn-ghost:hover { background: rgba(255,255,255,0.12); color: var(--text-bright); box-shadow: none; }
   .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-
   .opt-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .opt-group.wide { width: 100%; }
   .opt-label { font-family: var(--ui-font); font-size: clamp(9px,2vmin,10px); letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); }
   .pill-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
   .pill {
@@ -190,13 +176,35 @@
   }
   .pill:hover { transform: scale(1.04); }
   .pill.active { background: rgba(245,166,35,0.22); border-color: var(--lantern-glow); color: var(--lantern-glow); }
-
+  .pill.pill-sq { padding: 10px 0; width: 46px; text-align: center; }
+  /* 7-step speed slider (tab-bar style) */
+  .speed-slider { position: relative; width: 100%; max-width: 300px; height: 46px; margin: 2px auto 0; touch-action: none; cursor: pointer; user-select: none; -webkit-user-select: none; outline: none; }
+  .speed-slider:focus-visible .ss-track { border-color: var(--lantern-glow); }
+  .ss-track {
+    position: absolute; top: 50%; left: 0; right: 0; height: 40px; transform: translateY(-50%);
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(245,166,35,0.28); border-radius: 40px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.45);
+  }
+  .ss-inner { position: absolute; left: 22px; right: 22px; top: 0; bottom: 0; }
+  .ss-dot {
+    position: absolute; top: 50%; width: 7px; height: 7px; border-radius: 50%;
+    transform: translate(-50%,-50%); background: rgba(255,255,255,0.22); transition: background .15s, box-shadow .15s;
+  }
+  .ss-dot.on { background: var(--lantern-gold); box-shadow: 0 0 6px rgba(245,166,35,0.6); }
+  .ss-knob {
+    position: absolute; top: 50%; left: 0; width: 34px; height: 34px; border-radius: 50%;
+    transform: translate(-50%,-50%);
+    background: radial-gradient(circle at 38% 34%, #fffef8, #fbe6b0 58%, #f5c25a 100%);
+    border: 1px solid rgba(245,166,35,0.5);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.45), 0 0 16px rgba(245,166,35,0.35);
+    transition: left .12s cubic-bezier(.4,0,.2,1); cursor: grab; z-index: 2;
+  }
+  .speed-slider:active .ss-knob { cursor: grabbing; }
   .stat-row { display: flex; gap: 26px; flex-wrap: wrap; justify-content: center; }
   .stat-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
   .stat-label { font-family: var(--ui-font); font-size: clamp(8px,1.8vmin,9px); letter-spacing: .15em; color: var(--text-dim); text-transform: uppercase; }
   .stat-val { font-family: var(--ui-font); font-size: clamp(18px,4vmin,22px); font-weight: 700; color: var(--text-bright); }
   .score-big { font-family: var(--ui-font); font-size: clamp(48px,12vw,80px); font-weight: 700; color: var(--lantern-gold); text-shadow: 0 0 60px rgba(245,166,35,0.6); }
-
   #gear-btn {
     position: absolute; top: max(12px, env(safe-area-inset-top)); right: 14px; z-index: 70;
     width: 42px; height: 42px; border-radius: 50%;
@@ -207,7 +215,6 @@
   }
   #gear-btn:hover { background: rgba(255,255,255,0.15); transform: rotate(45deg); }
   #gear-btn.hidden { display: none; }
-
   #settings-overlay {
     position: absolute; inset: 0; z-index: 80;
     background: rgba(5,3,18,0.9); backdrop-filter: blur(14px);
@@ -224,18 +231,15 @@
   .set-title { font-family: var(--ui-font); font-size: clamp(13px,3vmin,15px); letter-spacing: .12em; text-transform: uppercase; color: var(--lantern-glow); font-weight: 700; }
   .set-close { background: none; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; line-height: 1; padding: 0 4px; }
   .set-close:hover { color: var(--text-bright); }
-
   .set-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .set-name { font-family: var(--th-font); font-size: clamp(14px,3.2vmin,15px); color: var(--text-bright); }
   .set-col { display: flex; flex-direction: column; align-items: stretch; gap: 9px; }
-
   .toggle { position: relative; width: 46px; height: 26px; flex-shrink: 0; cursor: pointer; }
   .toggle input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
   .toggle .track { position: absolute; inset: 0; background: rgba(255,255,255,0.18); border-radius: 40px; transition: background .2s; }
   .toggle .knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .2s; }
   .toggle input:checked ~ .track { background: var(--lantern-gold); }
   .toggle input:checked ~ .knob { transform: translateX(20px); }
-
   .seg { display: flex; gap: 6px; flex-wrap: wrap; }
   .seg button {
     font-family: var(--ui-font); font-size: clamp(10px,2.2vmin,11px); letter-spacing: .05em;
@@ -243,11 +247,9 @@
     background: transparent; color: var(--lantern-gold); cursor: pointer; font-weight: 600; transition: all .15s;
   }
   .seg button.active { background: rgba(245,166,35,0.22); border-color: var(--lantern-glow); color: var(--lantern-glow); }
-
   .set-divider { height: 1px; background: rgba(255,255,255,0.08); }
   .signature { text-align: center; font-family: var(--th-font); font-size: clamp(11px,2.4vmin,12px); color: var(--text-dim); letter-spacing: .04em; }
   .signature .star { color: var(--lantern-gold); }
-
   .particle { position: absolute; pointer-events: none; border-radius: 50%; z-index: 30; }
   @keyframes particleFly { 0%{opacity:1;transform:translate(0,0) scale(1)} 100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0.2)} }
   @keyframes emberRise { 0%{opacity:.9;transform:translate(0,0) scale(1)} 100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0.4)} }
@@ -255,18 +257,13 @@
 </style>
 </head>
 <body>
-
 <canvas id="stars"></canvas>
-
 <div id="shell">
   <div id="viewport">
     <div id="sky"></div>
     <div id="moon"></div>
-
     <div id="lantern-stage"></div>
-
     <button id="gear-btn" aria-label="settings">⚙️</button>
-
     <div id="hud" class="hidden">
       <div class="hud-block">
         <div class="hud-label" data-i18n="hud_score">คะแนน</div>
@@ -281,15 +278,12 @@
         <div class="hud-value" id="lives-display">❤❤❤</div>
       </div>
     </div>
-
     <div id="timer-bar" class="hidden"><div id="timer-fill" style="width:100%"></div></div>
-
     <div id="input-area" class="hidden">
       <input id="type-input" type="text" autocomplete="off" autocorrect="off"
              autocapitalize="off" spellcheck="false"
              data-i18n-ph="input_ph" placeholder="พิมพ์คำที่นี่…" inputmode="text">
     </div>
-
     <!-- PAGE 1: TITLE -->
     <div class="page" id="page-title">
       <div class="kicker" data-i18n="start_kicker">เกมพิมพ์ดีดภาษาไทย</div>
@@ -297,7 +291,6 @@
       <div class="title-roman" id="title-roman">PIM KHOM LOY</div>
       <button class="btn btn-lg" id="to-setup-btn" data-i18n="btn_play">เล่น</button>
     </div>
-
     <!-- PAGE 2: SETUP -->
     <div class="page hidden" id="page-setup">
       <div class="kicker" data-i18n="setup_kicker">ตั้งค่าเกม</div>
@@ -307,6 +300,14 @@
           <button class="pill active" data-diff="easy"   data-i18n="diff_easy">ง่าย</button>
           <button class="pill"        data-diff="medium" data-i18n="diff_medium">กลาง</button>
           <button class="pill"        data-diff="hard"   data-i18n="diff_hard">ยาก</button>
+        </div>
+      </div>
+      <div class="opt-group wide">
+        <div class="opt-label" data-i18n="label_speed">ความเร็ว</div>
+        <div id="speed-slider" class="speed-slider" role="slider" tabindex="0"
+             aria-label="speed" aria-valuemin="1" aria-valuemax="7" aria-valuenow="4">
+          <div class="ss-track"></div>
+          <div class="ss-inner"></div>
         </div>
       </div>
       <div class="opt-group">
@@ -322,7 +323,6 @@
         <button class="btn btn-lg" id="start-game-btn" data-i18n="btn_start">เริ่ม</button>
       </div>
     </div>
-
     <!-- PAGE 4: SCORE -->
     <div class="page hidden" id="page-score">
       <div class="kicker" data-i18n="go_kicker">จบเกม</div>
@@ -335,13 +335,13 @@
       </div>
       <div class="stat-row" style="margin-top:-6px">
         <div class="stat-item"><div class="stat-val" id="stat-diff" style="font-size:clamp(14px,3.2vmin,17px);color:var(--lantern-glow)">—</div><div class="stat-label" data-i18n="label_difficulty">ระดับความยาก</div></div>
+        <div class="stat-item"><div class="stat-val" id="stat-speed" style="font-size:clamp(14px,3.2vmin,17px);color:var(--lantern-glow)">—</div><div class="stat-label" data-i18n="label_speed">ความเร็ว</div></div>
         <div class="stat-item"><div class="stat-val" id="stat-time" style="font-size:clamp(14px,3.2vmin,17px);color:var(--lantern-glow)">—</div><div class="stat-label" data-i18n="label_time">เวลา</div></div>
       </div>
       <div class="btn-row">
         <button class="btn btn-ghost" id="score-back-btn" data-i18n="btn_back">กลับ</button>
       </div>
     </div>
-
     <!-- SETTINGS OVERLAY -->
     <div id="settings-overlay" class="hidden">
       <div id="settings-panel">
@@ -349,19 +349,15 @@
           <div class="set-title" data-i18n="set_title">ตั้งค่า</div>
           <button class="set-close" id="set-close-btn">×</button>
         </div>
-
         <div class="set-row">
           <div class="set-name" data-i18n="set_sound">เสียงเอฟเฟกต์</div>
           <label class="toggle"><input type="checkbox" id="set-sound" checked><span class="track"></span><span class="knob"></span></label>
         </div>
-
         <div class="set-row">
           <div class="set-name" data-i18n="set_music">เพลงประกอบ</div>
           <label class="toggle"><input type="checkbox" id="set-music" checked><span class="track"></span><span class="knob"></span></label>
         </div>
-
         <div class="set-divider"></div>
-
         <div class="set-col">
           <div class="set-name" data-i18n="set_counts">เมื่อพิมพ์คำสำเร็จ</div>
           <div class="seg" id="counts-seg">
@@ -370,7 +366,6 @@
             <button data-count="cross"  data-i18n="count_cross">ขีดฆ่า</button>
           </div>
         </div>
-
         <div class="set-col">
           <div class="set-name" data-i18n="set_size">ขนาดโคมลอย</div>
           <div class="seg" id="size-seg">
@@ -379,9 +374,7 @@
             <button data-size="large" data-i18n="size_large">ใหญ่</button>
           </div>
         </div>
-
         <div class="set-divider"></div>
-
         <div class="set-col">
           <div class="set-name" data-i18n="set_language">ภาษา</div>
           <div class="seg" id="lang-seg">
@@ -390,17 +383,13 @@
             <button data-lang="ja">日本語</button>
           </div>
         </div>
-
         <div class="set-divider"></div>
         <div class="signature">Krit's vibe code <span class="star">★</span> Pim Khom Loy</div>
       </div>
     </div>
-
   </div>
 </div>
-
 <script src="words.js"></script>
-
 <!-- STARFIELD -->
 <script>
 (function () {
@@ -421,13 +410,12 @@
   addEventListener('resize', ()=>{ resize(); initStars(); });
 })();
 </script>
-
 <!-- i18n -->
 <script>
 const I18N = {
   th: {
     start_kicker:"เกมพิมพ์ดีดภาษาไทย", btn_play:"เล่น",
-    setup_kicker:"ตั้งค่าเกม", label_difficulty:"ระดับความยาก", label_time:"เวลา", time_1min:"1 นาที",
+    setup_kicker:"ตั้งค่าเกม", label_difficulty:"ระดับความยาก", label_speed:"ความเร็ว", label_time:"เวลา", time_1min:"1 นาที",
     diff_easy:"ง่าย", diff_medium:"กลาง", diff_hard:"ยาก",
     btn_start:"เริ่ม", btn_back:"กลับ",
     hud_score:"คะแนน", hud_combo:"คอมโบ", hud_lives:"ชีวิต", input_ph:"พิมพ์คำที่นี่…",
@@ -440,7 +428,7 @@ const I18N = {
   },
   en: {
     start_kicker:"Thai Typing Game", btn_play:"Play",
-    setup_kicker:"Game Setup", label_difficulty:"Difficulty", label_time:"Time", time_1min:"1 min",
+    setup_kicker:"Game Setup", label_difficulty:"Difficulty", label_speed:"Speed", label_time:"Time", time_1min:"1 min",
     diff_easy:"Easy", diff_medium:"Medium", diff_hard:"Hard",
     btn_start:"Start", btn_back:"Back",
     hud_score:"Score", hud_combo:"Combo", hud_lives:"Lives", input_ph:"Type the word here…",
@@ -453,7 +441,7 @@ const I18N = {
   },
   ja: {
     start_kicker:"タイ語タイピングゲーム", btn_play:"プレイ",
-    setup_kicker:"ゲーム設定", label_difficulty:"難易度", label_time:"時間", time_1min:"1分",
+    setup_kicker:"ゲーム設定", label_difficulty:"難易度", label_speed:"スピード", label_time:"時間", time_1min:"1分",
     diff_easy:"やさしい", diff_medium:"ふつう", diff_hard:"むずかしい",
     btn_start:"スタート", btn_back:"戻る",
     hud_score:"スコア", hud_combo:"コンボ", hud_lives:"ライフ", input_ph:"ここに入力…",
@@ -465,7 +453,6 @@ const I18N = {
     set_language:"言語",
   }
 };
-
 const SUPPORTED = ['th','en','ja'];
 let LANG = 'th';
 const savedLang = localStorage.getItem('komloy_lang');
@@ -474,9 +461,7 @@ else {
   const nav = (navigator.language||'').toLowerCase();
   if (nav.startsWith('th')) LANG='th'; else if (nav.startsWith('ja')) LANG='ja'; else if (nav.startsWith('en')) LANG='en'; else LANG='th';
 }
-
 function tr(k){ return (I18N[LANG]&&I18N[LANG][k]) || I18N.th[k] || k; }
-
 function applyLang(){
   document.documentElement.lang = LANG;
   document.body.classList.toggle('lang-ja', LANG==='ja');
@@ -489,7 +474,6 @@ function applyLang(){
   else { tm.textContent='พิมพ์โคมลอย'; trr.textContent='PIM KHOM LOY'; }
 }
 </script>
-
 <!-- LANTERN SVG -->
 <script>
 let __lid = 0;
@@ -544,21 +528,17 @@ function makeLanternSVG(){
       </radialGradient>
       <filter id="soft${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3"/></filter>
     </defs>
-
     <!-- ambient halo behind the whole lantern -->
     <ellipse cx="44" cy="50" rx="44" ry="48" fill="url(#halo${id})"/>
-
     <!-- peaked / tented roof with a softly rounded apex, sloping to wide shoulders -->
     <path d="M70 24 L46 9 Q44 7.5 42 9 L18 24 Z" fill="url(#roof${id})"/>
     <path d="M70 24 L45 9 M43 9 L18 24" stroke="${p.edge}" stroke-width="0.8" opacity="0.5" fill="none"/>
     <line x1="44" y1="8" x2="44" y2="24" stroke="${p.edge}" stroke-width="0.7" opacity="0.4"/>
-
     <!-- wide squat body: broad shoulders, near-straight walls, slight taper to flat bottom rim -->
     <path d="M18 24 L70 24 Q72 26 71 40 L69 72 Q68 80 60 82 L28 82 Q20 80 19 72 L17 40 Q16 26 18 24 Z"
           fill="url(#body${id})"/>
     <path d="M18 24 L70 24 Q72 26 71 40 L69 72 Q68 80 60 82 L28 82 Q20 80 19 72 L17 40 Q16 26 18 24 Z"
           fill="url(#round${id})"/>
-
     <!-- vertical panel seams -->
     <g stroke="${p.edge}" stroke-width="0.7" opacity="0.34" fill="none">
       <path d="M30 24 L29 80"/>
@@ -571,14 +551,11 @@ function makeLanternSVG(){
       <path d="M18 56 Q44 54 70 56"/>
       <path d="M19 70 Q44 68 69 70"/>
     </g>
-
     <!-- shoulder rim highlight -->
     <path d="M18 24 L70 24" stroke="#fff" stroke-width="1" opacity="0.45"/>
-
     <!-- bottom mouth ring -->
     <ellipse cx="44" cy="82" rx="16" ry="4" fill="${p.paperB}"/>
     <ellipse cx="44" cy="82" rx="16" ry="4" fill="none" stroke="${p.edge}" stroke-width="0.9" opacity="0.7"/>
-
     <!-- glowing core / fuel cell just inside the mouth -->
     <circle cx="44" cy="81" r="13" fill="url(#core${id})" filter="url(#soft${id})"/>
     <ellipse class="flame" cx="44" cy="82" rx="4" ry="7" fill="${p.core}"
@@ -587,13 +564,11 @@ function makeLanternSVG(){
   </svg>`;
 }
 </script>
-
 <!-- AUDIO (WebAudio, no asset files) -->
 <script>
 const Audio2 = (() => {
   let ctx = null, musicOn = false, melodyTimer = null, noiseBuf = null;
   function ensure(){ if (!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)(); if (ctx.state==='suspended') ctx.resume(); return ctx; }
-
   function getNoise(c){
     if (noiseBuf) return noiseBuf;
     const len = Math.floor(c.sampleRate * 0.05);
@@ -602,7 +577,6 @@ const Audio2 = (() => {
     for (let i=0;i<len;i++) d[i] = (Math.random()*2-1);
     return noiseBuf;
   }
-
   function typeKey(){
     if (!settings.sound) return;
     const c = ensure(); const t0 = c.currentTime;
@@ -619,7 +593,6 @@ const Audio2 = (() => {
     g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.12,t0+0.003); g.gain.exponentialRampToValueAtTime(0.0001,t0+0.04);
     o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0+0.05);
   }
-
   function ding(){
     if (!settings.sound) return;
     const c = ensure(); const t0 = c.currentTime;
@@ -630,7 +603,6 @@ const Audio2 = (() => {
       o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0+0.95);
     });
   }
-
   function combo(){
     if (!settings.sound) return;
     const c = ensure(); const t0=c.currentTime;
@@ -639,7 +611,6 @@ const Audio2 = (() => {
     g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.16,t0+0.004); g.gain.exponentialRampToValueAtTime(0.0001,t0+0.5);
     o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0+0.55);
   }
-
   const N = { G4:392.00, A4:440.00, B4:493.88, C5:523.25, D5:587.33, E5:659.25, G5:783.99, REST:0 };
   const MELODY = [
     [N.E5,1],[N.D5,1],[N.C5,1],[N.D5,1],
@@ -674,16 +645,13 @@ const Audio2 = (() => {
   }
   function startMusic(){ if (musicOn) return; musicOn=true; melodyIdx=0; ensure(); playNote(); }
   function stopMusic(){ musicOn=false; clearTimeout(melodyTimer); }
-
   return { typeKey, ding, combo, miss: ()=>{}, hit: ding, startMusic, stopMusic, ensure };
 })();
 </script>
-
 <!-- SETTINGS STATE -->
 <script>
 const settings = { sound: true, music: true, counts: 'vanish', size: 'medium' };
 const SIZE_SCALE = { mini:0.72, medium:1.0, large:1.32 };
-
 function loadSettings(){
   try {
     const s = JSON.parse(localStorage.getItem('komloy_settings')||'{}');
@@ -702,27 +670,23 @@ function applySettings(){
   document.documentElement.style.setProperty('--lantern-scale', SIZE_SCALE[settings.size]);
 }
 </script>
-
 <!-- GAME ENGINE -->
 <script>
 function setVH(){ document.documentElement.style.setProperty('--app-vh', (window.innerHeight*0.01)+'px'); }
 setVH(); addEventListener('resize', setVH); addEventListener('orientationchange', ()=>setTimeout(setVH,200));
-
 const WORDS = (typeof WORD_BANK !== 'undefined' && WORD_BANK && WORD_BANK.easy)
   ? WORD_BANK
   : (window.WORD_BANK && window.WORD_BANK.easy)
     ? window.WORD_BANK
     : (() => { console.warn('[PimKhomLoy] words.js not loaded — using fallback'); return { easy:['แมว','ปลา','ดาว'], medium:['กล้วย','ความสุข'], hard:['วัฒนธรรม','เทคโนโลยี'] }; })();
 ['easy','medium','hard'].forEach(l=>{ if (!Array.isArray(WORDS[l]) || !WORDS[l].length) WORDS[l]=['โคมลอย']; });
-
 let state = {
   running:false, score:0, lives:3, combo:1, maxCombo:1,
   wordsTyped:0, keystrokes:0, correctKeys:0,
-  difficulty:'easy', duration:30, timeLeft:30,
+  difficulty:'easy', speed:4, duration:30, timeLeft:30,
   lanterns:[], spawnTimer:null, gameTimer:null,
 };
 let titleAmbientTimer = null;
-
 const stage = document.getElementById('lantern-stage');
 const typeInput = document.getElementById('type-input');
 const scoreDisplay = document.getElementById('score-display');
@@ -730,16 +694,51 @@ const comboDisplay = document.getElementById('combo-value');
 const livesDisplay = document.getElementById('lives-display');
 const timerFill = document.getElementById('timer-fill');
 
-/* Speeds reduced 3× across all levels (floatBase & perChar tripled) so lanterns drift much more slowly. */
+/* Difficulty now controls only the word bank, how many lanterns can share the sky,
+   and how often they appear. Rise SPEED is a separate 5-level setting (SPEED_MULT). */
 const diffConfig = {
-  easy:   { floatBase: 63.0, perChar: 5.4, interval: [3200, 4400], maxOnScreen: 3 },
-  medium: { floatBase: 43.5, perChar: 3.3, interval: [2700, 3800], maxOnScreen: 4 },
-  hard:   { floatBase: 37.5, perChar: 3.0, interval: [2300, 3200], maxOnScreen: 4 },
+  easy:   { interval: [3200, 4400], maxOnScreen: 3 },
+  medium: { interval: [2700, 3800], maxOnScreen: 4 },
+  hard:   { interval: [2300, 3200], maxOnScreen: 4 },
 };
-function floatDurationMs(word){ const c=diffConfig[state.difficulty]; return (c.floatBase + word.length*c.perChar)*1000; }
+
+/* 5 speed levels. Level 3 is the baseline; higher = faster rise (shorter duration).
+   Every lantern in a run rises at the same speed, so once separated at spawn they
+   never catch up to each other. */
+const SPEED_MULT = { 1:2.1, 2:1.7, 3:1.32, 4:1.0, 5:0.78, 6:0.6, 7:0.46 };
+const SPEED_LEVELS = 7;
+const BASE_RISE_MS = 22000;
+function floatDurationMs(){ return BASE_RISE_MS * (SPEED_MULT[state.speed] || 1); }
+
+/* --- anti-overlap + anti-duplicate helpers --- */
+const LOW_BAND = 0.24; // a lantern this fraction (or less) up the sky is still "near the bottom"
+function currentProgress(o){ return Math.min((performance.now()-o.startTime)/o.duration, 1); }
+function activeLanterns(){ return state.lanterns.filter(o=> !o.cleared && !o.escaped); }
+function getActiveWords(){ const s=new Set(); activeLanterns().forEach(o=>{ if (o.word) s.add(o.word); }); return s; }
+function pickWord(){
+  const bank = WORDS[state.difficulty];
+  const active = getActiveWords();
+  const avail = bank.filter(w=> !active.has(w));   // never repeat a word already on screen
+  const pool = avail.length ? avail : bank;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+/* Find a horizontal position (center %) whose footprint doesn't collide with any lantern
+   still near the bottom. Because every lantern rises at the same speed, separation at
+   spawn time is preserved for the whole flight, so nothing ever covers anything else. */
+function findFreeLeft(halfPct){
+  const edge = 2, buffer = 3.5;
+  const minLeft = Math.min(50, halfPct + edge);
+  const maxLeft = Math.max(50, 100 - halfPct - edge);
+  const blockers = activeLanterns().filter(o=> currentProgress(o) < LOW_BAND);
+  const fits = cand => blockers.every(b=> Math.abs(cand - b.leftPct) >= (halfPct + b.halfPct + buffer));
+  if (!blockers.length) return minLeft + Math.random()*(maxLeft-minLeft);
+  for (let t=0;t<60;t++){ const cand = minLeft + Math.random()*(maxLeft-minLeft); if (fits(cand)) return cand; }
+  for (let cand=minLeft; cand<=maxLeft; cand+=1){ if (fits(cand)) return cand; }
+  return null; // no room right now — skip this spawn
+}
 
 function createLantern(word, ambient){
-  const duration = ambient ? (26000 + Math.random()*10000) : floatDurationMs(word);
+  const duration = ambient ? (26000 + Math.random()*10000) : floatDurationMs();
   const leftPct = 8 + Math.random()*84;
   const el = document.createElement('div');
   el.className = 'lantern ' + (Math.random()<0.5?'float-a':'float-b');
@@ -752,7 +751,6 @@ function createLantern(word, ambient){
   stage.appendChild(el);
   return { el, word, duration, startTime: performance.now(), escaped:false, cleared:false, ambient };
 }
-
 function startTitleAmbient(){
   stopTitleAmbient();
   const spawn = () => {
@@ -770,14 +768,34 @@ function startTitleAmbient(){
   spawn();
 }
 function stopTitleAmbient(){ clearTimeout(titleAmbientTimer); }
-
 function spawnLantern(opts){
   if (!state.running) return;
   const chain = !opts || opts.chain !== false;
   const cfg = diffConfig[state.difficulty];
-  if (state.lanterns.length >= cfg.maxOnScreen){ if (chain) scheduleSpawn(); return; }
-  const word = WORDS[state.difficulty][Math.floor(Math.random()*WORDS[state.difficulty].length)];
-  const obj = createLantern(word, false);
+  const cap = Math.min(cfg.maxOnScreen, WORDS[state.difficulty].length);
+  if (state.lanterns.length >= cap){ if (chain) scheduleSpawn(); return; }
+
+  const word = pickWord();
+  const duration = floatDurationMs();
+  const el = document.createElement('div');
+  el.className = 'lantern ' + (Math.random()<0.5?'float-a':'float-b');
+  el.style.animationDuration = duration + 'ms';
+  el.style.visibility = 'hidden';   // hide until measured + placed
+  el.style.left = '50%';
+  el.innerHTML = makeLanternSVG() +
+    `<div class="word-bubble"><span class="label"><span class="typed"></span><span class="rest">${word}</span></span><span class="check">✓</span></div>`;
+  stage.appendChild(el);
+
+  // measure real footprint (lantern + word bubble) so neighbours never touch
+  const vpEl = document.getElementById('viewport');
+  const vpW = (vpEl && vpEl.getBoundingClientRect().width) || window.innerWidth;
+  const halfPct = ((el.getBoundingClientRect().width / 2) / vpW) * 100;
+  const leftPct = findFreeLeft(halfPct);
+  if (leftPct === null){ el.remove(); if (chain) scheduleSpawn(); return; }
+
+  el.style.left = leftPct + '%';
+  el.style.visibility = '';
+  const obj = { el, word, duration, startTime: performance.now(), escaped:false, cleared:false, ambient:false, leftPct, halfPct };
   state.lanterns.push(obj);
   obj.timeoutId = setTimeout(()=> escapeLantern(obj), obj.duration*0.96);
   if (chain) scheduleSpawn();
@@ -788,9 +806,7 @@ function scheduleSpawn(){
   clearTimeout(state.spawnTimer);
   state.spawnTimer = setTimeout(spawnLantern, cfg.interval[0] + Math.random()*(cfg.interval[1]-cfg.interval[0]));
 }
-
 function currentYvh(obj){ const frac=Math.min((performance.now()-obj.startTime)/obj.duration,1); return -(frac*135); }
-
 function escapeLantern(obj){
   if (obj.escaped || obj.cleared) return;
   obj.escaped = true; clearTimeout(obj.timeoutId);
@@ -819,7 +835,6 @@ function emitEmbers(ref){
     stage.appendChild(p); setTimeout(()=>p.remove(),1600);
   }
 }
-
 function loseLife(){ state.lives=Math.max(0,state.lives-1); state.combo=1; updateHUD(); shakeLives(); if (state.lives<=0) endGame(); }
 function updateHUD(){
   scoreDisplay.textContent = state.score.toLocaleString();
@@ -828,7 +843,6 @@ function updateHUD(){
   comboDisplay.style.color = state.combo>=5?'var(--accent-teal)':state.combo>=3?'var(--lantern-glow)':'var(--accent-rose)';
 }
 function shakeLives(){ livesDisplay.style.animation='none'; void livesDisplay.offsetHeight; livesDisplay.style.animation='shake 0.4s'; }
-
 typeInput.addEventListener('input', ()=>{
   if (!state.running) return;
   Audio2.typeKey();
@@ -849,11 +863,9 @@ typeInput.addEventListener('input', ()=>{
     state.lanterns.forEach(o=>{ if (o.cleared) return; o.el.classList.remove('partial'); const b=o.el.querySelector('.word-bubble'); if(b){b.querySelector('.typed').textContent='';b.querySelector('.rest').textContent=o.word;} });
   }
 });
-
 function clearWord(obj){
   obj.cleared = true; clearTimeout(obj.timeoutId);
   const idx = state.lanterns.indexOf(obj); if (idx!==-1) state.lanterns.splice(idx,1);
-
   const points = obj.word.length * 10 * state.combo;
   state.score += points;
   const prevCombo = state.combo;
@@ -861,10 +873,8 @@ function clearWord(obj){
   state.maxCombo = Math.max(state.maxCombo, state.combo);
   state.wordsTyped++; state.correctKeys += obj.word.length;
   updateHUD();
-
   Audio2.hit();
   if (state.combo>prevCombo && state.combo>=3) Audio2.combo();
-
   const bubble = obj.el.querySelector('.word-bubble');
   if (bubble){
     const ty=bubble.querySelector('.typed'), rt=bubble.querySelector('.rest');
@@ -875,15 +885,12 @@ function clearWord(obj){
     if (settings.counts==='vanish') bubble.classList.add('vanish');
   }
   obj.el.classList.remove('partial');
-
   showFloatingScore(obj.el, points);
   spawnHitParticles(obj.el);
   typeInput.classList.add('correct-flash'); setTimeout(()=>typeInput.classList.remove('correct-flash'),200);
   comboDisplay.classList.add('pop'); setTimeout(()=>comboDisplay.classList.remove('pop'),120);
-
   obj.el.addEventListener('animationend', ()=> obj.el.remove(), { once:true });
 }
-
 function showFloatingScore(ref, pts){
   const pop=document.createElement('div'); pop.textContent='+'+pts;
   pop.style.cssText=`position:absolute;font-family:var(--ui-font);font-weight:700;font-size:clamp(14px,3vmin,16px);color:var(--lantern-glow);pointer-events:none;z-index:40;white-space:nowrap;animation:particleFly 0.9s forwards ease-out;--dx:0px;--dy:-60px;`;
@@ -906,14 +913,12 @@ function spawnHitParticles(ref){
     stage.appendChild(p); setTimeout(()=>p.remove(),800);
   }
 }
-
 function startTimer(){
   state.timeLeft = state.duration;
   timerFill.style.transition='none'; timerFill.style.width='100%';
   setTimeout(()=>{ timerFill.style.transition=`width ${state.duration}s linear`; timerFill.style.width='0%'; },50);
   state.gameTimer = setInterval(()=>{ state.timeLeft--; if (state.timeLeft<=0) endGame(); },1000);
 }
-
 function showPage(id){
   ['page-title','page-setup','page-score'].forEach(p=> document.getElementById(p).classList.add('hidden'));
   if (id) document.getElementById(id).classList.remove('hidden');
@@ -924,10 +929,8 @@ function setGameChrome(on){
   document.getElementById('input-area').classList.toggle('hidden', !on);
   document.getElementById('gear-btn').classList.toggle('hidden', on);
 }
-
 function gotoTitle(){ endGameCleanup(); clearAllLanterns(); showPage('page-title'); setGameChrome(false); startTitleAmbient(); }
 function gotoSetup(){ stopTitleAmbient(); clearAllLanterns(); showPage('page-setup'); setGameChrome(false); }
-
 function startGame(){
   stopTitleAmbient(); clearAllLanterns();
   Audio2.ensure();
@@ -941,10 +944,8 @@ function startGame(){
   setTimeout(()=>{ if (state.running) spawnLantern({ chain:false }); }, 700);
   setTimeout(()=>{ if (state.running) spawnLantern({ chain:true }); }, 1500);
 }
-
 function endGameCleanup(){ state.running=false; clearTimeout(state.spawnTimer); clearInterval(state.gameTimer); state.gameTimer=null; Audio2.stopMusic(); }
 function clearAllLanterns(){ state.lanterns.forEach(o=>{ clearTimeout(o.timeoutId); }); state.lanterns=[]; stage.innerHTML=''; }
-
 function endGame(){
   endGameCleanup();
   clearAllLanterns();
@@ -954,31 +955,63 @@ function endGame(){
   document.getElementById('stat-combo').textContent  = '×'+state.maxCombo;
   document.getElementById('stat-acc').textContent    = acc+'%';
   document.getElementById('stat-diff').textContent   = tr('diff_'+state.difficulty);
+  document.getElementById('stat-speed').textContent  = state.speed + '/7';
   document.getElementById('stat-time').textContent   = state.duration>=60 ? tr('time_1min') : (state.duration+'s');
   setGameChrome(false);
   showPage('page-score');
 }
-
 document.getElementById('to-setup-btn').addEventListener('click', gotoSetup);
 document.getElementById('setup-back-btn').addEventListener('click', gotoTitle);
 document.getElementById('start-game-btn').addEventListener('click', startGame);
 document.getElementById('score-back-btn').addEventListener('click', gotoSetup);
-
 document.querySelectorAll('#diff-pills .pill').forEach(p=> p.addEventListener('click', ()=>{
   document.querySelectorAll('#diff-pills .pill').forEach(b=>b.classList.remove('active'));
   p.classList.add('active'); state.difficulty=p.dataset.diff;
 }));
+/* 7-step speed slider */
+const speedSlider = document.getElementById('speed-slider');
+const speedInner  = speedSlider.querySelector('.ss-inner');
+function renderSpeed(){
+  const idx = state.speed - 1;
+  speedInner.querySelectorAll('.ss-dot').forEach((d,i)=> d.classList.toggle('on', i<=idx));
+  const knob = speedInner.querySelector('.ss-knob');
+  if (knob) knob.style.left = (idx/(SPEED_LEVELS-1)*100) + '%';
+  speedSlider.setAttribute('aria-valuenow', state.speed);
+}
+function setSpeedFromX(clientX){
+  const r = speedInner.getBoundingClientRect();
+  let f = r.width ? (clientX - r.left)/r.width : 0;
+  f = Math.max(0, Math.min(1, f));
+  state.speed = Math.round(f*(SPEED_LEVELS-1)) + 1;
+  renderSpeed();
+}
+(function buildSpeedSlider(){
+  for (let i=0;i<SPEED_LEVELS;i++){
+    const d = document.createElement('span'); d.className='ss-dot';
+    d.style.left = (i/(SPEED_LEVELS-1)*100) + '%';
+    speedInner.appendChild(d);
+  }
+  const k = document.createElement('span'); k.className='ss-knob'; speedInner.appendChild(k);
+  renderSpeed();
+})();
+let speedDrag = false;
+speedSlider.addEventListener('pointerdown', e=>{ speedDrag=true; try{ speedSlider.setPointerCapture(e.pointerId); }catch(_){} setSpeedFromX(e.clientX); e.preventDefault(); });
+speedSlider.addEventListener('pointermove', e=>{ if (speedDrag) setSpeedFromX(e.clientX); });
+speedSlider.addEventListener('pointerup',   ()=> speedDrag=false);
+speedSlider.addEventListener('pointercancel',()=> speedDrag=false);
+speedSlider.addEventListener('keydown', e=>{
+  if (e.key==='ArrowLeft'||e.key==='ArrowDown'){ state.speed=Math.max(1,state.speed-1); renderSpeed(); e.preventDefault(); }
+  else if (e.key==='ArrowRight'||e.key==='ArrowUp'){ state.speed=Math.min(SPEED_LEVELS,state.speed+1); renderSpeed(); e.preventDefault(); }
+});
 document.querySelectorAll('#time-pills .pill').forEach(p=> p.addEventListener('click', ()=>{
   document.querySelectorAll('#time-pills .pill').forEach(b=>b.classList.remove('active'));
   p.classList.add('active'); state.duration=parseInt(p.dataset.time,10);
 }));
-
 typeInput.addEventListener('keydown', e=>{
   if (e.key==='Enter'){ const typed=typeInput.value.trim(); const m=state.lanterns.find(o=>!o.cleared&&o.word===typed); if(m){ clearWord(m); typeInput.value=''; } }
 });
 document.getElementById('viewport').addEventListener('click', e=>{ if (state.running && e.target.id!=='type-input') typeInput.focus(); });
 </script>
-
 <!-- SETTINGS UI WIRING + BOOT -->
 <script>
 const gearBtn = document.getElementById('gear-btn');
@@ -986,13 +1019,11 @@ const overlay = document.getElementById('settings-overlay');
 gearBtn.addEventListener('click', ()=> overlay.classList.remove('hidden'));
 document.getElementById('set-close-btn').addEventListener('click', ()=> overlay.classList.add('hidden'));
 overlay.addEventListener('click', e=>{ if (e.target===overlay) overlay.classList.add('hidden'); });
-
 document.getElementById('set-sound').addEventListener('change', e=>{ settings.sound=e.target.checked; saveSettings(); if (settings.sound) Audio2.hit(); });
 document.getElementById('set-music').addEventListener('change', e=>{
   settings.music=e.target.checked; saveSettings();
   if (settings.music){ Audio2.ensure(); Audio2.startMusic(); } else Audio2.stopMusic();
 });
-
 document.querySelectorAll('#counts-seg button').forEach(b=> b.addEventListener('click', ()=>{
   document.querySelectorAll('#counts-seg button').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); settings.counts=b.dataset.count; saveSettings();
@@ -1004,7 +1035,6 @@ document.querySelectorAll('#size-seg button').forEach(b=> b.addEventListener('cl
 document.querySelectorAll('#lang-seg button').forEach(b=> b.addEventListener('click', ()=>{
   LANG=b.dataset.lang; localStorage.setItem('komloy_lang',LANG); applyLang();
 }));
-
 loadSettings();
 applySettings();
 applyLang();
