@@ -262,16 +262,45 @@
   .btn-danger { border-color: rgba(232,67,122,0.5); color: var(--accent-rose); }
   .btn-danger:hover { background: var(--accent-rose); color: #fff; box-shadow: 0 0 24px rgba(232,67,122,0.35); }
   .btn-danger.arming { background: var(--accent-rose); color: #fff; animation: shake .35s; }
-  #gear-btn {
-    position: absolute; top: max(12px, env(safe-area-inset-top)); right: 14px; z-index: 70;
-    width: 42px; height: 42px; border-radius: 50%;
+  /* the two corner controls are the same object wearing different jobs:
+     settings when you're not playing, step-out when you are */
+  .corner-btn {
+    width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
     background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
-    color: var(--text-bright); font-size: 20px; cursor: pointer;
+    color: var(--text-bright); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: background .2s, transform .3s;
   }
-  #gear-btn:hover { background: rgba(255,255,255,0.15); transform: rotate(45deg); }
+  .corner-btn:hover { background: rgba(255,255,255,0.15); }
+  #gear-btn {
+    position: absolute; top: max(12px, env(safe-area-inset-top)); right: 14px; z-index: 70;
+    font-size: 20px;
+  }
+  #gear-btn:hover { transform: rotate(45deg); }
   #gear-btn.hidden { display: none; }
+  #back-btn {
+    pointer-events: auto; margin-top: -3px;
+    font-family: var(--ui-font); font-size: 26px; font-weight: 600;
+    line-height: 0; padding-bottom: 4px; color: var(--lantern-glow);
+  }
+  #back-btn:hover { transform: translateX(-3px); }
+  /* everything on the lantern stage stops mid-flight while paused */
+  #lantern-stage.frozen * { animation-play-state: paused !important; }
+  #pause-overlay {
+    position: absolute; inset: 0; z-index: 60;
+    background: rgba(5,3,18,0.78); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  #pause-overlay.hidden { display: none; }
+  #pause-panel {
+    width: 100%; max-width: 320px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    padding: 26px 24px 22px; border-radius: 22px;
+    background: rgba(20,16,40,0.72); border: 1px solid rgba(245,166,35,0.25);
+  }
+  .pause-score { font-family: var(--ui-font); font-size: clamp(15px,3.4vmin,17px); font-weight: 600; color: var(--lantern-glow); }
+  .pause-score .num { font-size: clamp(24px,5.4vmin,30px); font-weight: 700; margin-left: 8px; }
+  .pause-note { font-size: clamp(12px,2.7vmin,13px); color: var(--text-dim); line-height: 1.6; max-width: 240px; }
   #settings-overlay {
     position: absolute; inset: 0; z-index: 80;
     background: rgba(5,3,18,0.9); backdrop-filter: blur(14px);
@@ -325,8 +354,9 @@
     <div id="sky"></div>
     <div id="moon"></div>
     <div id="lantern-stage"></div>
-    <button id="gear-btn" aria-label="settings">⚙️</button>
+    <button id="gear-btn" class="corner-btn" aria-label="settings">⚙️</button>
     <div id="hud" class="hidden">
+      <button id="back-btn" class="corner-btn" data-i18n-aria="aria_back" aria-label="ออกจากเกม">‹</button>
       <div class="hud-block">
         <div class="hud-label" data-i18n="hud_score">คะแนน</div>
         <div class="hud-value" id="score-display">0</div>
@@ -423,6 +453,18 @@
         <button class="btn btn-danger btn-sm" id="hist-clear-btn" data-i18n="btn_clear">ล้างประวัติ</button>
       </div>
     </div>
+    <!-- PAUSE OVERLAY -->
+    <div id="pause-overlay" class="hidden">
+      <div id="pause-panel">
+        <div class="kicker" data-i18n="pause_kicker">หยุดพัก</div>
+        <div class="pause-score"><span data-i18n="pause_current">คะแนนตอนนี้</span><span class="num" id="pause-score-val">0</span></div>
+        <div class="pause-note" data-i18n="pause_note">ถ้าออกตอนนี้ รอบนี้จะไม่ถูกบันทึกในประวัติ</div>
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="pause-quit-btn" data-i18n="btn_quit">ออก</button>
+          <button class="btn" id="pause-resume-btn" data-i18n="btn_resume">เล่นต่อ</button>
+        </div>
+      </div>
+    </div>
     <!-- SETTINGS OVERLAY -->
     <div id="settings-overlay" class="hidden">
       <div id="settings-panel">
@@ -511,6 +553,8 @@ const I18N = {
     sort_recent:"ล่าสุด", sort_best:"อันดับ",
     hist_empty:"ยังไม่มีประวัติ\nเล่นให้จบหนึ่งรอบ แล้วคะแนนจะมาอยู่ที่นี่",
     btn_clear:"ล้างประวัติ", btn_clear_confirm:"ยืนยัน?", hist_new:"ใหม่", unit_words:"คำ",
+    btn_quit:"ออก", btn_resume:"เล่นต่อ", pause_kicker:"หยุดพัก", pause_current:"คะแนนตอนนี้",
+    pause_note:"ถ้าออกตอนนี้ รอบนี้จะไม่ถูกบันทึกในประวัติ", aria_back:"ออกจากเกม",
   },
   en: {
     start_kicker:"Thai Typing Game", btn_play:"Play",
@@ -529,6 +573,8 @@ const I18N = {
     sort_recent:"Recent", sort_best:"Ranking",
     hist_empty:"No runs yet\nFinish a round and your score lands here",
     btn_clear:"Clear History", btn_clear_confirm:"Sure?", hist_new:"NEW", unit_words:"words",
+    btn_quit:"Quit", btn_resume:"Resume", pause_kicker:"Paused", pause_current:"Score so far",
+    pause_note:"Quit now and this run won't be saved to your history", aria_back:"Leave the game",
   },
   ja: {
     start_kicker:"タイ語タイピングゲーム", btn_play:"プレイ",
@@ -547,6 +593,8 @@ const I18N = {
     sort_recent:"最新", sort_best:"ランキング",
     hist_empty:"まだ記録がありません\n1ラウンド遊ぶとここに残ります",
     btn_clear:"履歴を削除", btn_clear_confirm:"本当に？", hist_new:"NEW", unit_words:"語",
+    btn_quit:"終了", btn_resume:"続ける", pause_kicker:"一時停止", pause_current:"現在のスコア",
+    pause_note:"ここで終了すると、この記録は履歴に保存されません", aria_back:"ゲームを終了",
   }
 };
 const SUPPORTED = ['th','en','ja'];
@@ -563,6 +611,7 @@ function applyLang(){
   document.body.classList.toggle('lang-ja', LANG==='ja');
   document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); if (I18N[LANG]&&I18N[LANG][k]) el.textContent=I18N[LANG][k]; });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ const k=el.getAttribute('data-i18n-ph'); if (I18N[LANG]&&I18N[LANG][k]) el.placeholder=I18N[LANG][k]; });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>{ const k=el.getAttribute('data-i18n-aria'); if (I18N[LANG]&&I18N[LANG][k]) el.setAttribute('aria-label', I18N[LANG][k]); });
   document.querySelectorAll('#lang-seg button').forEach(b=> b.classList.toggle('active', b.dataset.lang===LANG));
   const tm = document.getElementById('title-main'), trr = document.getElementById('title-roman');
   if (LANG==='ja'){ tm.textContent='ピム・コーム・ロイ'; trr.textContent='พิมพ์โคมลอย'; }
@@ -915,7 +964,7 @@ function startTitleAmbient(){
 }
 function stopTitleAmbient(){ clearTimeout(titleAmbientTimer); }
 function spawnLantern(opts){
-  if (!state.running) return;
+  if (!state.running || paused) return;
   const chain = !opts || opts.chain !== false;
   const cfg = diffConfig[state.difficulty];
   const cap = Math.min(cfg.maxOnScreen, WORDS[state.difficulty].length);
@@ -950,7 +999,9 @@ function scheduleSpawn(){
   if (!state.running) return;
   const cfg = diffConfig[state.difficulty];
   clearTimeout(state.spawnTimer);
-  state.spawnTimer = setTimeout(spawnLantern, cfg.interval[0] + Math.random()*(cfg.interval[1]-cfg.interval[0]));
+  const delay = cfg.interval[0] + Math.random()*(cfg.interval[1]-cfg.interval[0]);
+  state.spawnDueAt = performance.now() + delay;
+  state.spawnTimer = setTimeout(spawnLantern, delay);
 }
 function currentYvh(obj){ const frac=Math.min((performance.now()-obj.startTime)/obj.duration,1); return -(frac*135); }
 function escapeLantern(obj){
@@ -990,7 +1041,7 @@ function updateHUD(){
 }
 function shakeLives(){ livesDisplay.style.animation='none'; void livesDisplay.offsetHeight; livesDisplay.style.animation='shake 0.4s'; }
 typeInput.addEventListener('input', ()=>{
-  if (!state.running) return;
+  if (!state.running || paused) return;
   Audio2.typeKey();
   const typed = typeInput.value.trim(); state.keystrokes++;
   state.lanterns.forEach(obj=>{
@@ -1059,11 +1110,26 @@ function spawnHitParticles(ref){
     stage.appendChild(p); setTimeout(()=>p.remove(),800);
   }
 }
+/* The countdown tracks a deadline rather than counting down a variable, so pausing
+   only has to remember how many milliseconds were left — no drift, no rounding to
+   the nearest whole second when the bar is frozen and released. */
+function tickTimer(){
+  const left = Math.max(0, state.endAt - performance.now());
+  state.timeLeft = Math.ceil(left/1000);
+  if (left <= 0) endGame();
+}
+function runTimerBar(ms){
+  timerFill.style.transition = 'none';
+  timerFill.style.width = (ms / (state.duration*1000) * 100) + '%';
+  void timerFill.offsetWidth;                    // commit the frozen width first
+  timerFill.style.transition = `width ${ms/1000}s linear`;
+  timerFill.style.width = '0%';
+}
 function startTimer(){
+  state.endAt = performance.now() + state.duration*1000;
   state.timeLeft = state.duration;
-  timerFill.style.transition='none'; timerFill.style.width='100%';
-  setTimeout(()=>{ timerFill.style.transition=`width ${state.duration}s linear`; timerFill.style.width='0%'; },50);
-  state.gameTimer = setInterval(()=>{ state.timeLeft--; if (state.timeLeft<=0) endGame(); },1000);
+  runTimerBar(state.duration*1000);
+  state.gameTimer = setInterval(tickTimer, 250);
 }
 function showPage(id){
   ['page-title','page-setup','page-score','page-history'].forEach(p=> document.getElementById(p).classList.add('hidden'));
@@ -1079,10 +1145,10 @@ function setGameChrome(on){
 function gotoTitle(){ endGameCleanup(); clearAllLanterns(); showPage('page-title'); setGameChrome(false); startTitleAmbient(); }
 function gotoSetup(){ stopTitleAmbient(); clearAllLanterns(); showPage('page-setup'); setGameChrome(false); }
 function startGame(){
-  stopTitleAmbient(); clearAllLanterns();
+  stopTitleAmbient(); clearAllLanterns(); clearPause();
   Audio2.ensure();
   if (settings.music) Audio2.startMusic();
-  Object.assign(state, { running:true, score:0, lives:3, combo:1, maxCombo:1, wordsTyped:0, keystrokes:0, correctKeys:0, lanterns:[] });
+  Object.assign(state, { running:true, score:0, lives:3, combo:1, maxCombo:1, wordsTyped:0, keystrokes:0, correctKeys:0, lanterns:[], spawnDueAt:0, spawnRemain:null });
   typeInput.value=''; updateHUD();
   showPage(null); setGameChrome(true);
   startTimer();
@@ -1091,6 +1157,87 @@ function startGame(){
   setTimeout(()=>{ if (state.running) spawnLantern({ chain:false }); }, 700);
   setTimeout(()=>{ if (state.running) spawnLantern({ chain:true }); }, 1500);
 }
+/* ── PAUSE ────────────────────────────────────────────────────────────────
+   Stepping out mid-round has to stop time, not just cover the screen: six things
+   are live during a round, and every one of them is put back holding exactly the
+   time it had left.
+     1. the lanterns' CSS float animations   → animation-play-state on the stage
+     2. the countdown                        → deadline arithmetic, not a variable
+     3. the timer bar's width transition     → frozen, then re-run over what's left
+     4. each lantern's escape timer          → remaining ms stored per lantern
+     5. the next spawn                       → remaining ms stored on state
+     6. the startTime clock findFreeLeft()   → shifted forward by the paused span,
+        reads for anti-overlap placement        so progress stays true to the pixels
+*/
+let paused = false, pausedAt = 0;
+
+/* How far into its flight the browser actually believes this lantern is. Reading the
+   rendered animation instead of keeping a second clock beside it means the two can
+   never drift apart across a pause — the arithmetic is only a fallback. */
+function animClock(el){
+  try {
+    const a = el.getAnimations ? el.getAnimations()[0] : null;
+    const t = a && a.currentTime;
+    return (typeof t === 'number' && isFinite(t)) ? t : null;
+  } catch(e){ return null; }
+}
+
+function pauseGame(){
+  if (!state.running || paused) return;
+  paused = true;
+  pausedAt = performance.now();
+
+  clearInterval(state.gameTimer); state.gameTimer = null;
+  clearTimeout(state.spawnTimer);
+  state.timeRemain  = Math.max(0, state.endAt - pausedAt);
+  state.spawnRemain = state.spawnDueAt ? Math.max(0, state.spawnDueAt - pausedAt) : null;
+  state.lanterns.forEach(o=>{
+    clearTimeout(o.timeoutId);
+    const flown = animClock(o.el);
+    o.escapeRemain = Math.max(0, o.duration*0.96 - (flown !== null ? flown : pausedAt - o.startTime));
+  });
+
+  stage.classList.add('frozen');
+  timerFill.style.transition = 'none';
+  timerFill.style.width = (state.timeRemain / (state.duration*1000) * 100) + '%';
+
+  typeInput.blur();                        // let the phone keyboard get out of the way
+  document.getElementById('pause-score-val').textContent = state.score.toLocaleString();
+  document.getElementById('pause-overlay').classList.remove('hidden');
+}
+
+function resumeGame(){
+  if (!paused) return;
+  const paidBack = performance.now() - pausedAt;
+  paused = false;
+  document.getElementById('pause-overlay').classList.add('hidden');
+  stage.classList.remove('frozen');
+
+  state.lanterns.forEach(o=>{
+    const flown = animClock(o.el);         // re-anchor to what's actually on screen
+    o.startTime = (flown !== null) ? performance.now() - flown : o.startTime + paidBack;
+    o.timeoutId = setTimeout(()=> escapeLantern(o), o.escapeRemain);
+  });
+
+  state.endAt = performance.now() + state.timeRemain;
+  runTimerBar(state.timeRemain);
+  state.gameTimer = setInterval(tickTimer, 250);
+
+  if (state.spawnRemain === null) scheduleSpawn();
+  else {
+    state.spawnDueAt = performance.now() + state.spawnRemain;
+    state.spawnTimer = setTimeout(spawnLantern, state.spawnRemain);
+  }
+  typeInput.focus();
+}
+
+function clearPause(){
+  paused = false;
+  stage.classList.remove('frozen');
+  document.getElementById('pause-overlay').classList.add('hidden');
+}
+function quitGame(){ endGameCleanup(); clearPause(); gotoSetup(); }
+
 function endGameCleanup(){ state.running=false; clearTimeout(state.spawnTimer); clearInterval(state.gameTimer); state.gameTimer=null; Audio2.stopMusic(); }
 function clearAllLanterns(){ state.lanterns.forEach(o=>{ clearTimeout(o.timeoutId); }); state.lanterns=[]; stage.innerHTML=''; }
 function endGame(){
@@ -1167,9 +1314,20 @@ document.querySelectorAll('#time-pills .pill').forEach(p=> p.addEventListener('c
   p.classList.add('active'); state.duration=parseInt(p.dataset.time,10);
 }));
 typeInput.addEventListener('keydown', e=>{
+  if (paused) return;
   if (e.key==='Enter'){ const typed=typeInput.value.trim(); const m=state.lanterns.find(o=>!o.cleared&&o.word===typed); if(m){ clearWord(m); typeInput.value=''; } }
 });
-document.getElementById('viewport').addEventListener('click', e=>{ if (state.running && e.target.id!=='type-input') typeInput.focus(); });
+document.getElementById('viewport').addEventListener('click', e=>{ if (state.running && !paused && e.target.id!=='type-input') typeInput.focus(); });
+
+/* wiring: the corner button, the panel's two exits, and Escape as a desktop shortcut */
+document.getElementById('back-btn').addEventListener('click', pauseGame);
+document.getElementById('pause-resume-btn').addEventListener('click', resumeGame);
+document.getElementById('pause-quit-btn').addEventListener('click', quitGame);
+addEventListener('keydown', e=>{
+  if (e.key !== 'Escape' || !state.running) return;
+  e.preventDefault();
+  paused ? resumeGame() : pauseGame();
+});
 </script>
 <!-- HISTORY PAGE -->
 <script>
