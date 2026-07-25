@@ -163,6 +163,7 @@
   .btn-lg { font-size: clamp(14px,3.2vmin,16px); padding: 16px 56px; }
   .btn-ghost { border-color: rgba(255,255,255,0.3); color: var(--text-bright); }
   .btn-ghost:hover { background: rgba(255,255,255,0.12); color: var(--text-bright); box-shadow: none; }
+  .btn-sm { font-size: clamp(10px,2.2vmin,11px); padding: 10px 22px; }
   .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
   .opt-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
   .opt-group.wide { width: 100%; }
@@ -205,6 +206,62 @@
   .stat-label { font-family: var(--ui-font); font-size: clamp(8px,1.8vmin,9px); letter-spacing: .15em; color: var(--text-dim); text-transform: uppercase; }
   .stat-val { font-family: var(--ui-font); font-size: clamp(18px,4vmin,22px); font-weight: 700; color: var(--text-bright); }
   .score-big { font-family: var(--ui-font); font-size: clamp(48px,12vw,80px); font-weight: 700; color: var(--lantern-gold); text-shadow: 0 0 60px rgba(245,166,35,0.6); }
+  /* personal-best badge on the score page */
+  #pb-badge {
+    font-family: var(--ui-font); font-size: clamp(10px,2.4vmin,12px); font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase; padding: 6px 20px; border-radius: 30px;
+    background: linear-gradient(90deg, var(--lantern-gold), var(--lantern-glow)); color: #2a1c00;
+    box-shadow: 0 0 30px rgba(245,166,35,0.5);
+  }
+  #pb-badge.hidden { display: none; }
+  /* ── HISTORY ───────────────────────────────────────────── */
+  #page-history {
+    background: rgba(5,3,18,0.92); backdrop-filter: blur(12px);
+    justify-content: flex-start; gap: 14px; overflow: hidden;
+    padding: max(22px, env(safe-area-inset-top)) 20px max(16px, env(safe-area-inset-bottom));
+  }
+  .hist-shell { width: 100%; max-width: 430px; flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 13px; }
+  .hist-summary {
+    display: flex; justify-content: space-around; gap: 10px; padding: 14px 8px;
+    border-radius: 18px; background: rgba(245,166,35,0.07);
+    border: 1px solid rgba(245,166,35,0.22);
+  }
+  .hist-sort { display: flex; gap: 8px; justify-content: center; }
+  .hist-list {
+    flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    display: flex; flex-direction: column; gap: 8px; padding-right: 3px;
+  }
+  .hist-list::-webkit-scrollbar { width: 3px; }
+  .hist-list::-webkit-scrollbar-thumb { background: rgba(245,166,35,0.35); border-radius: 3px; }
+  .hist-row {
+    display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px;
+    padding: 10px 13px; border-radius: 14px; text-align: left; flex-shrink: 0;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  }
+  .hist-row.latest { border-color: rgba(62,207,207,0.45); background: rgba(62,207,207,0.07); }
+  .hist-rank { font-family: var(--ui-font); font-size: clamp(12px,2.6vmin,13px); font-weight: 700; color: var(--text-dim); text-align: center; }
+  .hist-row.medal-1 .hist-rank { color: #ffd166; text-shadow: 0 0 12px rgba(255,209,102,0.6); }
+  .hist-row.medal-2 .hist-rank { color: #dde1e8; }
+  .hist-row.medal-3 .hist-rank { color: #cd8144; }
+  .hist-score { font-family: var(--ui-font); font-size: clamp(17px,3.8vmin,20px); font-weight: 700; color: var(--lantern-gold); line-height: 1.15; }
+  .hist-meta { font-size: clamp(10px,2.2vmin,11px); color: var(--text-dim); margin-top: 2px; }
+  .hist-side { text-align: right; }
+  .hist-date { font-family: var(--ui-font); font-size: clamp(9px,2vmin,10px); letter-spacing: .05em; color: var(--text-dim); }
+  .hist-stats { font-size: clamp(10px,2.2vmin,11px); color: var(--lantern-glow); opacity: .85; margin-top: 3px; }
+  .hist-badge {
+    display: inline-block; font-family: var(--ui-font); font-size: 8px; font-weight: 700;
+    letter-spacing: .12em; padding: 1px 7px; border-radius: 20px; margin-left: 7px;
+    background: var(--accent-teal); color: #06212a; vertical-align: middle;
+  }
+  .hist-empty {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; color: var(--text-dim); font-size: clamp(13px,3vmin,15px); text-align: center; line-height: 1.6;
+  }
+  .hist-empty .glyph { font-size: 38px; filter: drop-shadow(0 0 16px rgba(245,166,35,0.5)); }
+  .hist-foot { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .btn-danger { border-color: rgba(232,67,122,0.5); color: var(--accent-rose); }
+  .btn-danger:hover { background: var(--accent-rose); color: #fff; box-shadow: 0 0 24px rgba(232,67,122,0.35); }
+  .btn-danger.arming { background: var(--accent-rose); color: #fff; animation: shake .35s; }
   #gear-btn {
     position: absolute; top: max(12px, env(safe-area-inset-top)); right: 14px; z-index: 70;
     width: 42px; height: 42px; border-radius: 50%;
@@ -254,6 +311,10 @@
   @keyframes particleFly { 0%{opacity:1;transform:translate(0,0) scale(1)} 100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0.2)} }
   @keyframes emberRise { 0%{opacity:.9;transform:translate(0,0) scale(1)} 100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0.4)} }
   @keyframes flameFlicker { 0%,100%{transform:scaleY(1) scaleX(1);opacity:.95} 50%{transform:scaleY(1.12) scaleX(0.92);opacity:1} }
+  @media (prefers-reduced-motion: reduce) {
+    .btn:hover, .pill:hover { transform: none; }
+    .btn-danger.arming { animation: none; }
+  }
 </style>
 </head>
 <body>
@@ -323,10 +384,12 @@
         <button class="btn btn-ghost" id="setup-back-btn" data-i18n="btn_back">กลับ</button>
         <button class="btn btn-lg" id="start-game-btn" data-i18n="btn_start">เริ่ม</button>
       </div>
+      <button class="btn btn-ghost btn-sm" id="setup-hist-btn" data-i18n="btn_history">ประวัติ</button>
     </div>
     <!-- PAGE 4: SCORE -->
     <div class="page hidden" id="page-score">
       <div class="kicker" data-i18n="go_kicker">จบเกม</div>
+      <div id="pb-badge" class="hidden" data-i18n="pb_badge">สถิติใหม่!</div>
       <div class="blurb" data-i18n="go_title" style="color:var(--lantern-glow);font-size:clamp(16px,4vmin,20px)">คะแนนของคุณ</div>
       <div class="score-big" id="final-score">0</div>
       <div class="stat-row">
@@ -341,6 +404,23 @@
       </div>
       <div class="btn-row">
         <button class="btn btn-ghost" id="score-back-btn" data-i18n="btn_back">กลับ</button>
+        <button class="btn" id="score-hist-btn" data-i18n="btn_history">ประวัติ</button>
+      </div>
+    </div>
+    <!-- PAGE 5: HISTORY -->
+    <div class="page hidden" id="page-history">
+      <div class="kicker" data-i18n="hist_kicker">สถิติย้อนหลัง</div>
+      <div class="hist-shell">
+        <div class="hist-summary" id="hist-summary"></div>
+        <div class="hist-sort" id="hist-sort">
+          <button class="pill active" data-sort="recent" data-i18n="sort_recent">ล่าสุด</button>
+          <button class="pill" data-sort="best" data-i18n="sort_best">อันดับ</button>
+        </div>
+        <div class="hist-list" id="hist-list"></div>
+      </div>
+      <div class="hist-foot">
+        <button class="btn btn-ghost" id="hist-back-btn" data-i18n="btn_back">กลับ</button>
+        <button class="btn btn-danger btn-sm" id="hist-clear-btn" data-i18n="btn_clear">ล้างประวัติ</button>
       </div>
     </div>
     <!-- SETTINGS OVERLAY -->
@@ -420,12 +500,17 @@ const I18N = {
     diff_easy:"ง่าย", diff_medium:"กลาง", diff_hard:"ยาก",
     btn_start:"เริ่ม", btn_back:"กลับ",
     hud_score:"คะแนน", hud_combo:"คอมโบ", hud_lives:"ชีวิต", input_ph:"พิมพ์คำที่นี่…",
-    go_kicker:"จบเกม", go_title:"คะแนนของคุณ",
+    go_kicker:"จบเกม", go_title:"คะแนนของคุณ", pb_badge:"สถิติใหม่!",
     stat_words:"คำที่พิมพ์ได้", stat_combo:"คอมโบสูงสุด", stat_acc:"ความแม่นยำ",
     set_title:"ตั้งค่า", set_sound:"เสียงเอฟเฟกต์", set_music:"เพลงประกอบ",
     set_counts:"เมื่อพิมพ์คำสำเร็จ", count_check:"เครื่องหมาย ✅", count_vanish:"คำหายไป", count_cross:"ขีดฆ่า",
     set_size:"ขนาดโคมลอย", size_mini:"เล็ก", size_medium:"กลาง", size_large:"ใหญ่",
     set_language:"ภาษา",
+    btn_history:"ประวัติ", hist_kicker:"สถิติย้อนหลัง",
+    hist_best:"คะแนนสูงสุด", hist_runs:"รอบที่บันทึก", hist_bestcombo:"คอมโบสูงสุด",
+    sort_recent:"ล่าสุด", sort_best:"อันดับ",
+    hist_empty:"ยังไม่มีประวัติ\nเล่นให้จบหนึ่งรอบ แล้วคะแนนจะมาอยู่ที่นี่",
+    btn_clear:"ล้างประวัติ", btn_clear_confirm:"ยืนยัน?", hist_new:"ใหม่", unit_words:"คำ",
   },
   en: {
     start_kicker:"Thai Typing Game", btn_play:"Play",
@@ -433,12 +518,17 @@ const I18N = {
     diff_easy:"Easy", diff_medium:"Medium", diff_hard:"Hard",
     btn_start:"Start", btn_back:"Back",
     hud_score:"Score", hud_combo:"Combo", hud_lives:"Lives", input_ph:"Type the word here…",
-    go_kicker:"Game Over", go_title:"Your Score",
+    go_kicker:"Game Over", go_title:"Your Score", pb_badge:"New Best!",
     stat_words:"Words Cleared", stat_combo:"Best Combo", stat_acc:"Accuracy",
     set_title:"Settings", set_sound:"Sound Effects", set_music:"Music",
     set_counts:"When a word is cleared", count_check:"Checkmark ✅", count_vanish:"Word vanishes", count_cross:"Cross out",
     set_size:"Lantern Size", size_mini:"Mini", size_medium:"Medium", size_large:"Large",
     set_language:"Language",
+    btn_history:"History", hist_kicker:"Past Runs",
+    hist_best:"Best Score", hist_runs:"Runs Saved", hist_bestcombo:"Best Combo",
+    sort_recent:"Recent", sort_best:"Ranking",
+    hist_empty:"No runs yet\nFinish a round and your score lands here",
+    btn_clear:"Clear History", btn_clear_confirm:"Sure?", hist_new:"NEW", unit_words:"words",
   },
   ja: {
     start_kicker:"タイ語タイピングゲーム", btn_play:"プレイ",
@@ -446,12 +536,17 @@ const I18N = {
     diff_easy:"やさしい", diff_medium:"ふつう", diff_hard:"むずかしい",
     btn_start:"スタート", btn_back:"戻る",
     hud_score:"スコア", hud_combo:"コンボ", hud_lives:"ライフ", input_ph:"ここに入力…",
-    go_kicker:"ゲーム終了", go_title:"あなたのスコア",
+    go_kicker:"ゲーム終了", go_title:"あなたのスコア", pb_badge:"新記録！",
     stat_words:"クリアした語数", stat_combo:"最高コンボ", stat_acc:"正確率",
     set_title:"設定", set_sound:"効果音", set_music:"音楽",
     set_counts:"単語をクリアしたとき", count_check:"チェックマーク ✅", count_vanish:"単語が消える", count_cross:"取り消し線",
     set_size:"ランタンの大きさ", size_mini:"小", size_medium:"中", size_large:"大",
     set_language:"言語",
+    btn_history:"履歴", hist_kicker:"これまでの記録",
+    hist_best:"最高スコア", hist_runs:"記録数", hist_bestcombo:"最高コンボ",
+    sort_recent:"最新", sort_best:"ランキング",
+    hist_empty:"まだ記録がありません\n1ラウンド遊ぶとここに残ります",
+    btn_clear:"履歴を削除", btn_clear_confirm:"本当に？", hist_new:"NEW", unit_words:"語",
   }
 };
 const SUPPORTED = ['th','en','ja'];
@@ -473,6 +568,9 @@ function applyLang(){
   if (LANG==='ja'){ tm.textContent='ピム・コーム・ロイ'; trr.textContent='พิมพ์โคมลอย'; }
   else if (LANG==='en'){ tm.textContent='Pim Khom Loy'; trr.textContent='พิมพ์โคมลอย'; }
   else { tm.textContent='พิมพ์โคมลอย'; trr.textContent='PIM KHOM LOY'; }
+  // history is rendered from JS strings, so redraw it if it happens to be open
+  const histPage = document.getElementById('page-history');
+  if (histPage && !histPage.classList.contains('hidden') && typeof renderHistory === 'function') renderHistory();
 }
 </script>
 <!-- LANTERN SVG -->
@@ -643,7 +741,7 @@ const Audio2 = (() => {
 </script>
 <!-- SETTINGS STATE -->
 <script>
-const settings = { sound: true, music: true, counts: 'vanish', size: 'medium' };
+const settings = { sound: true, music: true, counts: 'vanish', size: 'medium', histSort: 'recent' };
 const SIZE_SCALE = { mini:0.72, medium:1.0, large:1.32 };
 function loadSettings(){
   try {
@@ -652,16 +750,69 @@ function loadSettings(){
     if (typeof s.music==='boolean') settings.music=s.music;
     if (['check','vanish','cross'].includes(s.counts)) settings.counts=s.counts;
     if (['mini','medium','large'].includes(s.size)) settings.size=s.size;
+    if (['recent','best'].includes(s.histSort)) settings.histSort=s.histSort;
   } catch(e){}
 }
-function saveSettings(){ localStorage.setItem('komloy_settings', JSON.stringify(settings)); }
+function saveSettings(){ try { localStorage.setItem('komloy_settings', JSON.stringify(settings)); } catch(e){} }
 function applySettings(){
   document.getElementById('set-sound').checked = settings.sound;
   document.getElementById('set-music').checked = settings.music;
   document.querySelectorAll('#counts-seg button').forEach(b=> b.classList.toggle('active', b.dataset.count===settings.counts));
   document.querySelectorAll('#size-seg button').forEach(b=> b.classList.toggle('active', b.dataset.size===settings.size));
+  document.querySelectorAll('#hist-sort .pill').forEach(b=> b.classList.toggle('active', b.dataset.sort===settings.histSort));
   document.documentElement.style.setProperty('--lantern-scale', SIZE_SCALE[settings.size]);
 }
+</script>
+<!-- HISTORY STORE (localStorage — survives closing the app) -->
+<script>
+/*
+  One key, one array, newest first. Every read is defensive: a hand-edited or
+  half-written entry can never take the game down with it, the worst case is
+  that one bad row is dropped. Capped so the key can't grow without bound.
+*/
+const HistoryStore = (() => {
+  const KEY = 'komloy_history';
+  const CAP = 100;
+  const DIFFS = ['easy','medium','hard'];
+  function sane(r){
+    return r && typeof r === 'object' && typeof r.score === 'number' && isFinite(r.score) && typeof r.ts === 'number';
+  }
+  function normalize(r){
+    return {
+      id:        typeof r.id === 'string' ? r.id : 'r'+r.ts,
+      ts:        r.ts,
+      score:     Math.max(0, Math.round(r.score)),
+      words:     Math.max(0, Math.round(r.words||0)),
+      maxCombo:  Math.max(1, Math.round(r.maxCombo||1)),
+      acc:       Math.min(100, Math.max(0, Math.round(r.acc||0))),
+      difficulty: DIFFS.includes(r.difficulty) ? r.difficulty : 'easy',
+      speed:     Math.min(7, Math.max(1, Math.round(r.speed||4))),
+      duration:  Math.max(1, Math.round(r.duration||30)),
+    };
+  }
+  function load(){
+    try {
+      const raw = JSON.parse(localStorage.getItem(KEY) || '[]');
+      if (!Array.isArray(raw)) return [];
+      return raw.filter(sane).map(normalize).slice(0, CAP);
+    } catch(e){ return []; }
+  }
+  function write(list){
+    try { localStorage.setItem(KEY, JSON.stringify(list.slice(0, CAP))); return true; }
+    catch(e){ return false; }   // private mode / quota — the run just isn't kept
+  }
+  function add(run){
+    const list = load();
+    list.unshift(normalize(run));
+    list.sort((a,b)=> b.ts - a.ts);
+    write(list);
+    return list;
+  }
+  function clear(){ try { localStorage.removeItem(KEY); } catch(e){} }
+  function bestScore(){ return load().reduce((m,r)=> Math.max(m, r.score), 0); }
+  function newRunId(){ return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+  return { load, add, clear, bestScore, newRunId, CAP };
+})();
 </script>
 <!-- GAME ENGINE -->
 <script>
@@ -680,6 +831,8 @@ let state = {
   lanterns:[], spawnTimer:null, gameTimer:null,
 };
 let titleAmbientTimer = null;
+let lastRunId = null;        // the run just finished — flagged in the history list
+let histReturn = 'page-setup';
 const stage = document.getElementById('lantern-stage');
 const typeInput = document.getElementById('type-input');
 const scoreDisplay = document.getElementById('score-display');
@@ -913,8 +1066,9 @@ function startTimer(){
   state.gameTimer = setInterval(()=>{ state.timeLeft--; if (state.timeLeft<=0) endGame(); },1000);
 }
 function showPage(id){
-  ['page-title','page-setup','page-score'].forEach(p=> document.getElementById(p).classList.add('hidden'));
+  ['page-title','page-setup','page-score','page-history'].forEach(p=> document.getElementById(p).classList.add('hidden'));
   if (id) document.getElementById(id).classList.remove('hidden');
+  disarmClear();
 }
 function setGameChrome(on){
   document.getElementById('hud').classList.toggle('hidden', !on);
@@ -943,6 +1097,18 @@ function endGame(){
   endGameCleanup();
   clearAllLanterns();
   const acc = state.keystrokes>0 ? Math.round((state.correctKeys/state.keystrokes)*100) : 0;
+
+  // record the run before anything else, so a rendering hiccup can't lose it
+  const run = {
+    id: HistoryStore.newRunId(), ts: Date.now(),
+    score: state.score, words: state.wordsTyped, maxCombo: state.maxCombo, acc,
+    difficulty: state.difficulty, speed: state.speed, duration: state.duration,
+  };
+  const prevBest = HistoryStore.bestScore();
+  HistoryStore.add(run);
+  lastRunId = run.id;
+  document.getElementById('pb-badge').classList.toggle('hidden', !(run.score > prevBest && run.score > 0));
+
   document.getElementById('final-score').textContent = state.score.toLocaleString();
   document.getElementById('stat-words').textContent  = state.wordsTyped;
   document.getElementById('stat-combo').textContent  = '×'+state.maxCombo;
@@ -1004,6 +1170,107 @@ typeInput.addEventListener('keydown', e=>{
   if (e.key==='Enter'){ const typed=typeInput.value.trim(); const m=state.lanterns.find(o=>!o.cleared&&o.word===typed); if(m){ clearWord(m); typeInput.value=''; } }
 });
 document.getElementById('viewport').addEventListener('click', e=>{ if (state.running && e.target.id!=='type-input') typeInput.focus(); });
+</script>
+<!-- HISTORY PAGE -->
+<script>
+const histSummaryEl = document.getElementById('hist-summary');
+const histListEl    = document.getElementById('hist-list');
+const histClearBtn  = document.getElementById('hist-clear-btn');
+
+function histLocale(){ return LANG==='ja' ? 'ja-JP' : LANG==='th' ? 'th-TH' : 'en-GB'; }
+function fmtRunDate(ts){
+  const d = new Date(ts);
+  try { return d.toLocaleString(histLocale(), { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }); }
+  catch(e){ return d.toLocaleString(); }
+}
+function fmtDuration(sec){ return sec>=60 ? tr('time_1min') : sec+'s'; }
+
+function renderHistory(){
+  const runs = HistoryStore.load();
+  const bestScore = runs.reduce((m,r)=> Math.max(m, r.score), 0);
+  const bestCombo = runs.reduce((m,r)=> Math.max(m, r.maxCombo), 1);
+
+  histSummaryEl.innerHTML =
+    `<div class="stat-item"><div class="stat-val" style="color:var(--lantern-gold)">${bestScore.toLocaleString()}</div><div class="stat-label">${tr('hist_best')}</div></div>` +
+    `<div class="stat-item"><div class="stat-val">${runs.length}</div><div class="stat-label">${tr('hist_runs')}</div></div>` +
+    `<div class="stat-item"><div class="stat-val">×${bestCombo}</div><div class="stat-label">${tr('hist_bestcombo')}</div></div>`;
+
+  if (!runs.length){
+    histListEl.innerHTML =
+      `<div class="hist-empty"><div class="glyph">🏮</div><div>${tr('hist_empty').replace('\n','<br>')}</div></div>`;
+    return;
+  }
+
+  /* The number on the left always means the same thing: this run's all-time standing
+     by score. So in the recent view you can still see that Tuesday's run is your best,
+     and in the ranking view it simply matches the row order. */
+  const standing = new Map();
+  runs.slice().sort((a,b)=> (b.score - a.score) || (b.ts - a.ts))
+      .forEach((r,i)=> standing.set(r.id, i+1));
+
+  const ordered = settings.histSort === 'best'
+    ? runs.slice().sort((a,b)=> (standing.get(a.id) - standing.get(b.id)))
+    : runs.slice().sort((a,b)=> b.ts - a.ts);
+
+  histListEl.innerHTML = ordered.map(r=>{
+    const rank   = standing.get(r.id);
+    const medal  = rank <= 3 ? ' medal-' + rank : '';
+    const latest = (r.id === lastRunId) ? ' latest' : '';
+    const badge  = latest ? `<span class="hist-badge">${tr('hist_new')}</span>` : '';
+    return `<div class="hist-row${medal}${latest}">
+      <div class="hist-rank">${rank}</div>
+      <div>
+        <div class="hist-score">${r.score.toLocaleString()}${badge}</div>
+        <div class="hist-meta">${tr('diff_'+r.difficulty)} · ${r.speed}/7 · ${fmtDuration(r.duration)}</div>
+      </div>
+      <div class="hist-side">
+        <div class="hist-date">${fmtRunDate(r.ts)}</div>
+        <div class="hist-stats">${r.words} ${tr('unit_words')} · ×${r.maxCombo} · ${r.acc}%</div>
+      </div>
+    </div>`;
+  }).join('');
+  histListEl.scrollTop = 0;
+}
+
+function gotoHistory(from){
+  histReturn = from;
+  stopTitleAmbient();
+  showPage('page-history');
+  setGameChrome(false);
+  renderHistory();
+}
+
+/* Clearing is destructive, so the button arms itself first and disarms after 3s. */
+let clearArmed = false, clearTimer = null;
+function disarmClear(){
+  clearArmed = false; clearTimeout(clearTimer);
+  histClearBtn.classList.remove('arming');
+  histClearBtn.textContent = tr('btn_clear');
+}
+histClearBtn.addEventListener('click', ()=>{
+  if (!clearArmed){
+    clearArmed = true;
+    histClearBtn.classList.add('arming');
+    histClearBtn.textContent = tr('btn_clear_confirm');
+    clearTimer = setTimeout(disarmClear, 3000);
+    return;
+  }
+  HistoryStore.clear();
+  lastRunId = null;
+  disarmClear();
+  renderHistory();
+});
+
+document.getElementById('setup-hist-btn').addEventListener('click', ()=> gotoHistory('page-setup'));
+document.getElementById('score-hist-btn').addEventListener('click', ()=> gotoHistory('page-score'));
+document.getElementById('hist-back-btn').addEventListener('click', ()=> showPage(histReturn));
+document.querySelectorAll('#hist-sort .pill').forEach(p=> p.addEventListener('click', ()=>{
+  document.querySelectorAll('#hist-sort .pill').forEach(b=> b.classList.remove('active'));
+  p.classList.add('active');
+  settings.histSort = p.dataset.sort;
+  saveSettings();
+  renderHistory();
+}));
 </script>
 <!-- SETTINGS UI WIRING + BOOT -->
 <script>
