@@ -39,32 +39,45 @@
   #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
   #shell { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 1; }
   /* ── STAGE GEOMETRY ────────────────────────────────────────────────────
-     One shape, everywhere: a 4:3 landscape sky. Each breakpoint only says how
-     much room the stage may take (--avail-w / --avail-h); the ratio is solved
-     once, here, so phone and desktop can never drift apart again. */
+     The 4:3 sky is a *state*, not a device: it exists while lanterns are
+     flying. Off the clock, the frame fills whatever screen it's on, so the
+     title, setup, score and history pages keep the shape they always had.
+     Desktop is the one exception — it was already framed, so it stays framed.
+     Each breakpoint only declares how much room there is (--avail-w/-h); the
+     ratio is solved once, here. */
   #viewport {
-    position: relative; overflow: hidden; border-radius: 4px;
-    box-shadow: 0 0 80px rgba(245,166,35,0.15), 0 0 200px rgba(245,166,35,0.05);
+    position: relative; overflow: hidden;
     background: transparent;
     --avail-w: 100vw;
     --avail-h: calc(var(--app-vh) * 100);
+    width:  var(--avail-w);
+    height: var(--avail-h);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  /* gameplay: the same landscape sky the PC plays in */
+  body.playing #viewport {
     width:  min(var(--avail-w), calc(var(--avail-h) * 4 / 3));
     height: min(var(--avail-h), calc(var(--avail-w) * 3 / 4));
+    box-shadow: 0 0 60px rgba(245,166,35,0.14);
   }
   @media (min-width: 768px) and (orientation: landscape) {
-    #viewport { --avail-w: 86vw; --avail-h: calc(var(--app-vh) * 86); }
+    #viewport, body.playing #viewport {
+      --avail-w: 86vw;
+      --avail-h: calc(var(--app-vh) * 86);
+      width:  min(var(--avail-w), calc(var(--avail-h) * 4 / 3));
+      height: min(var(--avail-h), calc(var(--avail-w) * 3 / 4));
+      border-radius: 4px;
+      box-shadow: 0 0 80px rgba(245,166,35,0.15), 0 0 200px rgba(245,166,35,0.05);
+    }
   }
   @media (orientation: portrait) {
-    /* the sky rides high so the keyboard opens into empty space beneath it */
-    #shell { align-items: flex-start; padding-top: max(8px, env(safe-area-inset-top)); }
-    #viewport {
-      --avail-w: 100vw;
-      --avail-h: calc(var(--app-vh) * 60);
-      border-radius: 0;
-      box-shadow: 0 0 60px rgba(245,166,35,0.12);
-    }
-    /* menus need the whole phone; only the game lives inside the 4:3 frame */
-    .page, #pause-overlay, #settings-overlay, #gear-btn { position: fixed; }
+    /* mid-round the sky rides at the top, so the keyboard opens into the empty
+       space below it instead of over the input. Off the clock the frame is
+       full-height and this alignment changes nothing. */
+    #shell { align-items: flex-start; }
+    /* the one modal that appears mid-round needs the whole screen, not the sky */
+    #pause-overlay { position: fixed; }
   }
   #sky { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 110%, #2a1a5e 0%, #160d38 35%, #0c0b22 65%, #080814 100%); z-index: 0; }
   #sky::after {
@@ -917,12 +930,15 @@ let stableH = 0, lastOrient = null;
 function measureStage(){
   const vp = document.getElementById('viewport');
   if (!vp) return;
-  const h = Math.round(vp.getBoundingClientRect().height) || stableH;
+  const r = vp.getBoundingClientRect();
+  const h = Math.round(r.height) || stableH;
+  const w = Math.round(r.width)  || window.innerWidth;
   if (!h) return;
   STAGE_H = h;
   const root = document.documentElement.style;
   root.setProperty('--rise', h + 'px');
-  root.setProperty('--lantern-base', Math.round(Math.min(78, Math.max(44, h * 0.2))) + 'px');
+  // held against both axes: a tall narrow sky shouldn't inflate the lanterns
+  root.setProperty('--lantern-base', Math.round(Math.max(44, Math.min(78, h*0.2, w*0.16))) + 'px');
   vp.classList.toggle('compact', h < 430);
 }
 function setVH(){
@@ -1213,17 +1229,21 @@ function showPage(id){
   if (id) document.getElementById(id).classList.remove('hidden');
   disarmClear();
 }
+/* One switch owns the whole "we're playing" state: the chrome, the shape of the
+   sky, and the two numbers measured from it. Nothing can toggle one and forget
+   the others. */
 function setGameChrome(on){
   document.getElementById('hud').classList.toggle('hidden', !on);
   document.getElementById('timer-bar').classList.toggle('hidden', !on);
   document.getElementById('input-area').classList.toggle('hidden', !on);
   document.getElementById('gear-btn').classList.toggle('hidden', on);
+  document.body.classList.toggle('playing', on);
+  measureStage();                 // the frame just changed shape — re-read it
 }
 function gotoTitle(){ endGameCleanup(); clearAllLanterns(); showPage('page-title'); setGameChrome(false); startTitleAmbient(); }
 function gotoSetup(){ stopTitleAmbient(); clearAllLanterns(); showPage('page-setup'); setGameChrome(false); }
 function startGame(){
   stopTitleAmbient(); clearAllLanterns(); clearPause();
-  measureStage();                 // the sky may have changed shape since last round
   Audio2.ensure();
   if (settings.music) Audio2.startMusic();
   Object.assign(state, { running:true, score:0, lives:3, combo:1, maxCombo:1, wordsTyped:0, keystrokes:0, correctKeys:0, lanterns:[], spawnDueAt:0, spawnRemain:null });
